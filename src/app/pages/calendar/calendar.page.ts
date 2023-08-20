@@ -1,20 +1,20 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { IonModal, ModalController } from '@ionic/angular';
-import { BookingComponent } from '../components/booking/booking.component';
-import { DataService } from '../services/data.service';
-import { DisplayCalendarEvent } from '../models/CalendarEvent.model';
+import { BookingComponent } from '../../components/booking/booking.component';
+import { DataService } from '../../services/data.service';
+import { DisplayCalendarEvent } from '../../models/CalendarEvent.model';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-calendar',
+  templateUrl: './calendar.page.html',
+  styleUrls: ['./calendar.page.scss'],
 })
-export class Tab1Page {
+export class CalendarPage implements OnInit {
   @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
   @ViewChild('modal') calendarBooking: IonModal;
 

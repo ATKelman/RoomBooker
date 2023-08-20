@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Avbryt</ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Hantera Bookning</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="save()">Spara</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <!-- <ion-input label="Från" labelPlacement="fixed" [(ngModel)]="startTime"></ion-input> -->
+    <ion-datetime-button datetime="startTime"></ion-datetime-button>
+  </ion-item>
+  <ion-item>
+    <ion-datetime-button datetime="endTime"></ion-datetime-button>
+    <!-- <ion-input label="Till" labelPlacement="fixed" [(ngModel)]="endDate"></ion-input> -->
+  </ion-item>
+  <ion-item>
+    <ion-input label="Vem" labelPlacement="fixed" [(ngModel)]="creator"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-textarea label="Beskrivning" labelPlacement="fixed" autoGrow="true" [(ngModel)]="description"></ion-textarea>
+  </ion-item>
+
+  <!-- <ion-item>
+    <ion-datetime-button datetime="datetime" [(ngModel)]="startTime"></ion-datetime-button>
+  </ion-item> -->
+  <!-- <ion-item>
+    <ion-datetime presentation="date-time" preferWheel="true"></ion-datetime>
+  </ion-item> -->
+
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime id="startTime" [(ngModel)]="startDate" ngDefaultControl></ion-datetime>
+    </ng-template>
+  </ion-modal>
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime id="endTime" [(ngModel)]="endDate" ngDefaultControl></ion-datetime>
+    </ng-template>
+  </ion-modal>
+</ion-content>

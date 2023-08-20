@@ -8,6 +8,7 @@ import { CalendarPageRoutingModule } from './calendar-routing.module';
 
 import { CalendarPage } from './calendar.page';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { BookingComponent } from 'src/app/components/booking/booking.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     CalendarPageRoutingModule,
     FullCalendarModule
   ],
-  declarations: [CalendarPage]
+  declarations: [CalendarPage, BookingComponent]
 })
 export class CalendarPageModule {}

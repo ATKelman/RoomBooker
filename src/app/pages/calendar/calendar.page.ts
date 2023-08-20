@@ -19,24 +19,29 @@ export class CalendarPage implements OnInit {
   @ViewChild('modal') calendarBooking: IonModal;
 
   calendarOptions: CalendarOptions = {
+    customButtons: {
+      createButton: {
+        text: 'Skapa',
+        click: () => {
+          this.createModal('', '', '');
+        }
+      }
+    },
     initialView: 'timeGridWeek',
     headerToolbar: {
-      left: 'prev,next today',
+      left: 'timeGridWeek,timeGridDay today',
       center: 'title',
-      right: 'timeGridWeek,timeGridDay'
+      right: 'createButton prev,next'
     },
     weekends: false,
     plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin ],
-    events: [
-      { title: 'event 1', start: '2023-08-17 08:30', end: '2023-08-17 10:00' },
-      { title: 'Gustav', start: '2023-08-18 13:30', end: '2023-08-18 15:00' },
-    ],
+    events: [],
     slotMinTime: '08:00',
     slotMaxTime: '18:00',
     nowIndicator: true,
     selectable: true,
     select: (e) => {
-      this.createModal(e.startStr, e.endStr, '', '');
+      this.createModal(e.startStr, e.endStr, '');
     }
 
   };
@@ -76,7 +81,15 @@ export class CalendarPage implements OnInit {
 
   }
 
-  async createModal(start: string, end: string, creator: string, description: string) {
+  async createModal(start: string, end: string, creator: string) {
+    if (start === '') {
+      start = new Date().toISOString();
+    }
+    if (end === '') {
+      end = new Date().toISOString();
+    }
+
+    console.log('creating modal', start);
     const modal = await this.modalController.create({
       component: BookingComponent,
       componentProps: {

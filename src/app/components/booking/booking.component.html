@@ -12,15 +12,18 @@
 
 <ion-content>
   <ion-item>
+    <ion-label slot="start">Från</ion-label>
     <ion-datetime-button datetime="startTime"></ion-datetime-button>
   </ion-item>
   <ion-item>
+    <ion-label slot="start">Till</ion-label>
     <ion-datetime-button datetime="endTime"></ion-datetime-button>
   </ion-item>
   <ion-item>
-    <ion-input label="Bookning" labelPlacement="fixed" [(ngModel)]="creator"></ion-input>
+    <ion-input label="Namn" labelPlacement="fixed" [(ngModel)]="creator"></ion-input>
   </ion-item>
 
+  <!-- Bindings to DateTime Buttons, these must be mounted as per Ionics Documentation -->
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
       <ion-datetime id="startTime" [(ngModel)]="startDate" ngDefaultControl></ion-datetime>

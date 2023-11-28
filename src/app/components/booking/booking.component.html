@@ -3,8 +3,9 @@
     <ion-buttons slot="start">
       <ion-button (click)="cancel()">Avbryt</ion-button>
     </ion-buttons>
-    <ion-title class="ion-text-center">Hantera Bookning</ion-title>
+    <ion-title class="ion-text-center">Bokning</ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="delete()" [disabled]="id === ''">Radera</ion-button>
       <ion-button (click)="save()">Spara</ion-button>
     </ion-buttons>
   </ion-toolbar>

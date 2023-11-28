@@ -16,11 +16,21 @@ export class DataService {
 
   getEvents() {
     const eventCollection = collection(this.firestore, `events`);
-    return collectionData(eventCollection) as Observable<CalendarEvent[]>;
+    return collectionData(eventCollection, { idField: 'id'}) as Observable<CalendarEvent[]>;
   }
 
   addEvent(event: DisplayCalendarEvent) {
     const eventCollection = collection(this.firestore, `events`);
     return addDoc(eventCollection, event);
+  }
+
+  updateEvent(event: DisplayCalendarEvent) {
+    const eventDocRef = doc(this.firestore, `events/${event.id}`);
+    return updateDoc(eventDocRef, { title: event.title, start: event.start, end: event.end });
+  }
+
+  deleteEvent(id: string) {
+    const eventDocRef = doc(this.firestore, `events/${id}`);
+    return deleteDoc(eventDocRef);
   }
 }

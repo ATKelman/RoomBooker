@@ -8,6 +8,7 @@ import { IonModal, ModalController } from '@ionic/angular';
 import { BookingComponent } from '../../components/booking/booking.component';
 import { DataService } from '../../services/data.service';
 import { DisplayCalendarEvent } from '../../models/CalendarEvent.model';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-calendar',
@@ -23,16 +24,32 @@ export class CalendarPage implements OnInit {
       createButton: {
         text: 'Skapa',
         click: () => {
-          this.createModal('', '', '');
+          this.createModal('', '', '', '');
         }
       }
     },
+    views: {
+      timeGridWeek: {
+        dayHeaderFormat: (args) => {
+          const date = new Date(args.date.year, args.date.month, args.date.day);
+          return formatDate(date, 'E dd/MM', 'en-US').toString();
+        },
+      },
+    },
     initialView: 'timeGridWeek',
     headerToolbar: {
-      left: 'timeGridWeek,timeGridDay today',
+      left: 'dayGridMonth,timeGridWeek,timeGridDay today',
       center: 'title',
       right: 'createButton prev,next'
     },
+    buttonText: {
+      dayGridMonth: 'Månad',
+      timeGridWeek: 'Vecka',
+      timeGridDay: 'Dag',
+      today: 'Idag'
+    },
+    weekNumbers: true,
+    weekText: 'V ',
     weekends: false,
     plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin ],
     events: [],
@@ -41,7 +58,22 @@ export class CalendarPage implements OnInit {
     nowIndicator: true,
     selectable: true,
     select: (e) => {
-      this.createModal(e.startStr, e.endStr, '');
+      this.createModal('', e.startStr, e.endStr, '');
+    },
+    eventClick: (e) => {
+      this.createModal(e.event._def.publicId, e.event.startStr, e.event.endStr, e.event.title);
+    },
+    eventTimeFormat: {
+      hour: '2-digit', //2-digit, numeric
+      minute: '2-digit', //2-digit, numeric
+      meridiem: false, //lowercase, short, narrow, false (display of AM/PM)
+      hour12: false //true, false
+    },
+    slotLabelFormat: {
+      hour: '2-digit', //2-digit, numeric
+      minute: '2-digit', //2-digit, numeric
+      meridiem: false, //lowercase, short, narrow, false (display of AM/PM)
+      hour12: false //true, false
     }
 
   };
@@ -56,11 +88,10 @@ export class CalendarPage implements OnInit {
   ngOnInit() {
     this.dataService.getEvents()
       .subscribe(res => {
-        const test = res[0].start.toDate();
-
         this.events = [];
         res.map(x => {
           const instance = {
+            id: x.id,
             title: x.title,
             start: x.start.toDate(),
             end: x.end.toDate()
@@ -81,7 +112,7 @@ export class CalendarPage implements OnInit {
 
   }
 
-  async createModal(start: string, end: string, creator: string) {
+  async createModal(id: string, start: string, end: string, title: string) {
     if (start === '') {
       start = new Date().toISOString();
     }
@@ -89,22 +120,21 @@ export class CalendarPage implements OnInit {
       end = new Date().toISOString();
     }
 
-    console.log('creating modal', start);
     const modal = await this.modalController.create({
       component: BookingComponent,
       componentProps: {
+        id: id,
         startDate: start,
         endDate: end,
-        creator: creator
-      }
-
-    });
-
-    modal.onDidDismiss().then((modalData) => {
-      if (modalData !== null) {
-        console.log('data from modal', modalData);
+        creator: title
       }
     });
+
+    // modal.onDidDismiss().then((modalData) => {
+    //   if (modalData !== null) {
+    //     console.log('data from modal', modalData);
+    //   }
+    // });
 
     return await modal.present();
   }
